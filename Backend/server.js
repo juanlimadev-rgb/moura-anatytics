@@ -5,7 +5,12 @@ const verificarToken = require('./middlewares/auth');
 
 const express = require('express');
 const cors = require('cors');
+const puppeteer = require('puppeteer');
+const connection = require('./database/connection');
 
+const app = express(); // 👈 CRIA PRIMEIRO
+
+// 👇 DEPOIS CONFIGURA O CORS
 app.use(cors({
   origin: [
     'https://juanlimadev-rgb.github.io'
@@ -13,12 +18,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-const puppeteer = require('puppeteer');
-const connection = require('./database/connection');
 
-const app = express();
-
-app.use(cors());
 app.use(express.json());
 
 // -------------------------
