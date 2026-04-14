@@ -8,7 +8,12 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
   port: process.env.DB_PORT || 3306,
   charset: 'utf8mb4',
-  timezone: '-03:00'
+  timezone: '-03:00',
+
+  // 🔥 ESSA PARTE AQUI RESOLVE
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 connection.connect((err) => {
