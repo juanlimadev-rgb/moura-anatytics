@@ -8,18 +8,27 @@ const cors = require('cors');
 const puppeteer = require('puppeteer');
 const connection = require('./database/connection');
 
-const app = express(); // 👈 CRIA PRIMEIRO
+const app = express();
 
-// 👇 DEPOIS CONFIGURA O CORS
 app.use(cors({
   origin: [
-    'https://juanlimadev-rgb.github.io'
+    'https://juanlimadev-rgb.github.io',
+    'https://juanlimadev-rgb.github.io/moura-anatytics'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
+app.options('*', cors());
+
 app.use(express.json());
+
+// -------------------------
+// ROTA TESTE
+// -------------------------
+app.get('/', (req, res) => {
+  res.send('API Moura Analytics online.');
+});
 
 // -------------------------
 // HELPERS
@@ -65,8 +74,6 @@ function formatarDataBR(data) {
   });
 }
 
-// Aproveitamento: (Pontos / Total) * 100
-// Eficiência: ((Pontos - Erros) / Total) * 100
 function gerarSqlEstatistica(fundamento, filtroAtleta) {
   let campoPonto = "resultado = 'ponto'";
   let campoErro = "resultado = 'erro'";
@@ -283,7 +290,7 @@ app.post('/partidas', verificarToken, async (req, res) => {
   }
 });
 
-app.post('/evento', async (req, res) => {
+app.post('/evento', verificarToken, async (req, res) => {
   try {
     const { id_partida, id_atleta, set_numero, fundamento, resultado } = req.body;
 
@@ -295,11 +302,12 @@ app.post('/evento', async (req, res) => {
     await queryAsync(sql, [id_partida, id_atleta, set_numero, fundamento, resultado]);
     res.json({ mensagem: 'Evento salvo!' });
   } catch (error) {
+    console.error('Erro ao salvar evento:', error);
     res.status(500).json({ erro: 'Erro ao salvar evento' });
   }
 });
 
-app.post('/partidas/:id/finalizar', async (req, res) => {
+app.post('/partidas/:id/finalizar', verificarToken, async (req, res) => {
   try {
     const id = req.params.id;
     const { sets } = req.body;
@@ -318,6 +326,7 @@ app.post('/partidas/:id/finalizar', async (req, res) => {
 
     res.json({ resultado: final });
   } catch (error) {
+    console.error('Erro ao finalizar:', error);
     res.status(500).json({ erro: 'Erro ao finalizar' });
   }
 });
@@ -404,7 +413,11 @@ app.get('/relatorio/:id_partida/:tipo/pdf', async (req, res) => {
       </html>
     `;
 
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox']
+    });
+
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'networkidle0' });
     const pdf = await page.pdf({ format: 'A4', printBackground: true });
