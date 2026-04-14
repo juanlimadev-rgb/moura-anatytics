@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:3000";
+const API_BASE = "https://moura-anatytics.onrender.com";
 const token = localStorage.getItem("token");
 
 let idPartidaAtual = null;
