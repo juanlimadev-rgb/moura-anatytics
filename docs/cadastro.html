@@ -164,54 +164,6 @@
     </div>
   </div>
 
-  <script>
-    const API_BASE = "http://localhost:3000";
-
-    const formCadastro = document.getElementById("form-cadastro");
-    const mensagem = document.getElementById("mensagem");
-
-    function mostrarMensagem(texto, tipo) {
-      mensagem.textContent = texto;
-      mensagem.className = `mensagem ${tipo}`;
-      mensagem.style.display = "block";
-    }
-
-    formCadastro.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const nome = document.getElementById("nome").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const senha = document.getElementById("senha").value;
-
-      if (!nome || !email || !senha) {
-        mostrarMensagem("Preencha todos os campos.", "erro");
-        return;
-      }
-
-      try {
-        const response = await fetch(`${API_BASE}/auth/cadastro`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ nome, email, senha })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.erro || "Erro ao cadastrar.");
-        }
-
-        mostrarMensagem("Cadastro realizado com sucesso! Redirecionando para o login...", "sucesso");
-
-        setTimeout(() => {
-          window.location.href = "login.html";
-        }, 1500);
-      } catch (error) {
-        mostrarMensagem(error.message, "erro");
-      }
-    });
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
