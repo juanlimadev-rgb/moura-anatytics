@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - Moura Analytics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 430px;
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 32px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .logo h1 {
+      font-size: 28px;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+
+    .logo p {
+      font-size: 14px;
+      color: #64748b;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+
+    .form-group input {
+      width: 100%;
+      height: 48px;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0 14px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: #0f766e;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+    }
+
+    .auth-btn {
+      width: 100%;
+      height: 48px;
+      border: none;
+      border-radius: 12px;
+      background: #0f766e;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .auth-btn:hover {
+      background: #0d5f59;
+    }
+
+    .auth-footer {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      color: #475569;
+    }
+
+    .auth-footer a {
+      color: #0f766e;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .mensagem {
+      margin-top: 16px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .mensagem.sucesso {
+      background: #dcfce7;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .mensagem.erro {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <div class="logo">
+      <h1>Moura Analytics</h1>
+      <p>Crie sua conta para acessar o sistema</p>
+    </div>
+
+    <form id="form-cadastro">
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" id="nome" placeholder="Seu nome" />
+      </div>
+
+      <div class="form-group">
+        <label for="email">E-mail</label>
+        <input type="email" id="email" placeholder="seuemail@email.com" />
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="Digite sua senha" />
+      </div>
+
+      <button type="submit" class="auth-btn">Cadastrar</button>
+    </form>
+
+    <div id="mensagem" class="mensagem"></div>
+
+    <div class="auth-footer">
+      Já tem conta? <a href="login.html">Entrar</a>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "http://localhost:3000";
+
+    const formCadastro = document.getElementById("form-cadastro");
+    const mensagem = document.getElementById("mensagem");
+
+    function mostrarMensagem(texto, tipo) {
+      mensagem.textContent = texto;
+      mensagem.className = `mensagem ${tipo}`;
+      mensagem.style.display = "block";
+    }
+
+    formCadastro.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nome = document.getElementById("nome").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const senha = document.getElementById("senha").value;
+
+      if (!nome || !email || !senha) {
+        mostrarMensagem("Preencha todos os campos.", "erro");
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/auth/cadastro`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ nome, email, senha })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.erro || "Erro ao cadastrar.");
+        }
+
+        mostrarMensagem("Cadastro realizado com sucesso! Redirecionando para o login...", "sucesso");
+
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+      } catch (error) {
+        mostrarMensagem(error.message, "erro");
+      }
+    });
+  </script>
+</body>
+</html>
