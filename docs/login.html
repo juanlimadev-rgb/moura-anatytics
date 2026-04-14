@@ -94,40 +94,7 @@
     </div>
   </div>
 
-  <script>
-    const API_BASE = "http://localhost:3000";
-
-    document.getElementById("form-login").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const email = document.getElementById("email").value.trim();
-      const senha = document.getElementById("senha").value;
-
-      try {
-        const response = await fetch(`${API_BASE}/auth/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ email, senha })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.erro || "Erro ao fazer login");
-        }
-
-        localStorage.setItem("token", data.token);
-
-        alert("Login realizado!");
-        window.location.href = "index.html";
-
-      } catch (error) {
-        alert(error.message);
-      }
-    });
-  </script>
+<script src="script.js"></script>
 
 </body>
 </html>
