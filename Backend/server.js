@@ -5,6 +5,14 @@ const verificarToken = require('./middlewares/auth');
 
 const express = require('express');
 const cors = require('cors');
+
+app.use(cors({
+  origin: [
+    'https://juanlimadev-rgb.github.io'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 const puppeteer = require('puppeteer');
 const connection = require('./database/connection');
 
