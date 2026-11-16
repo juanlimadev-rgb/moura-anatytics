@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Moura Analytics</title>
+  <link rel="stylesheet" href="style.css" /><link rel="stylesheet" href="enhancements.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">
+        <img src="imagens/logo-praia.png" alt="Logo Moura Analytics" />
+      </div>
+
+      <div class="brand-text">
+        <h1>Moura Analytics</h1>
+        <span>Beach Volleyball Performance System</span>
+      </div>
+    </div>
+
+    <div class="topbar-actions">
+      <button class="topbar-btn active" type="button" onclick="if(analysisId)closeAnalysis();window.scrollTo(0,0)">Coleta ao Vivo</button>
+<button class="topbar-btn" type="button" onclick="openRoster('athletes')">Atletas</button>
+<button class="topbar-btn" type="button" onclick="openRoster('pairs')">Duplas</button>
+<button class="topbar-btn" type="button" onclick="if(analysisId)closeAnalysis();document.getElementById('history').scrollIntoView()">Histórico</button>
+      <button class="topbar-btn" type="button" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- DADOS DA PARTIDA -->
+    <section class="panel match-setup-panel">
+      <div class="panel-header">
+        <h2>Dados da partida</h2>
+        <p>Preencha as informações iniciais antes de iniciar a coleta.</p>
+      </div>
+
+      <div class="selection-tools">
+<div class="form-group"><label for="match-pair">Dupla cadastrada</label><select id="match-pair"><option value="">Preenchimento manual</option></select></div>
+<button type="button" class="topbar-btn" onclick="openRoster('athletes')">Cadastrar atleta</button>
+<button type="button" class="topbar-btn" onclick="openRoster('pairs')">Cadastrar dupla</button>
+<button type="button" class="topbar-btn" id="swap-positions" disabled>Inverter posições 1 ↔ 2</button>
+</div><p class="hint">A posição nesta partida define os botões de marcação e os relatórios individuais.</p>
+<div id="match-people" class="people"></div><div class="match-form-grid">
+        <div class="form-group">
+          <label for="campeonato">Competição</label>
+          <input
+            type="text"
+            id="campeonato"
+            placeholder="Ex: Elite 16 - FIVB World Tour"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="local">Local da competição</label>
+          <input
+            type="text"
+            id="local"
+            placeholder="Ex: Cancún, México"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="adversario">Dupla adversária</label>
+          <input
+            type="text"
+            id="adversario"
+            placeholder="Ex: Tainá / Vitória"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="data_partida">Data da partida</label>
+          <input type="date" id="data_partida" />
+        </div>
+
+        <div class="form-group">
+          <label for="atleta1">Atleta 1</label>
+          <input
+            type="text"
+            id="atleta1" maxlength="200"
+            placeholder="Ex: Juan"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="atleta2">Atleta 2</label>
+          <input
+            type="text"
+            id="atleta2" maxlength="200"
+            placeholder="Ex: Michell"
+          />
+        </div>
+      </div>
+
+      <div class="form-group" style="margin-top:16px"><label for="video-url">Link do jogo (opcional)</label><input type="url" id="video-url" placeholder="https://…" maxlength="2048"><span class="hint">HTTP ou HTTPS. Este link não será incluído nos PDFs.</span></div><div class="match-form-actions">
+        <button id="btn-iniciar-partida" class="primary-btn" type="button">
+          Iniciar Partida
+        </button>
+
+        <span id="partida-status" class="status-text">
+          Nenhuma partida iniciada.
+        </span>
+      </div>
+    </section>
+
+    <!-- RESUMO AO VIVO -->
+    <section class="panel live-summary-panel">
+      <div class="panel-header">
+        <h2>Resumo da partida</h2>
+        <p>Informações principais da coleta em andamento.</p>
+      </div>
+
+      <div class="summary-top">
+        <div>
+          <span class="small-label">Competição</span>
+          <strong id="resumo-campeonato">—</strong>
+        </div>
+
+        <div>
+          <span class="small-label">Local</span>
+          <strong id="resumo-local">—</strong>
+        </div>
+
+        <div>
+          <span class="small-label">Adversários(a)</span>
+          <strong id="resumo-adversario">—</strong>
+        </div>
+
+        <div>
+          <span class="small-label">Data</span>
+          <strong id="resumo-data">—</strong>
+        </div>
+      </div>
+
+      <div class="summary-bottom">
+        <div class="score-card">
+          <span class="small-label">Dupla</span>
+          <strong id="resumo-dupla">—</strong>
+        </div>
+
+        <div class="score-card">
+          <span class="small-label">Atleta 1</span>
+          <strong id="resumo-atleta1">—</strong>
+        </div>
+
+        <div class="score-card">
+          <span class="small-label">Atleta 2</span>
+          <strong id="resumo-atleta2">—</strong>
+        </div>
+
+        <div class="score-card">
+          <span class="small-label">Status</span>
+          <strong id="resumo-status">Aguardando início</strong>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLETA DUPLA -->
+    <section class="double-collection-grid">
+      <!-- ATLETA 1 -->
+      <section class="panel athlete-panel">
+        <div class="athlete-panel-header">
+          <div>
+            <h2 id="nome-atleta1-painel">Atleta 1</h2>
+            <p>Coleta individual em tempo real</p>
+          </div>
+
+          <div class="athlete-controls">
+            <div class="mini-field">
+              <label for="set_atleta1">Set</label>
+              <select id="set_atleta1">
+                <option value="1">1º</option>
+                <option value="2">2º</option>
+                <option value="3">3º</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="actions-container">
+
+        <div class="undo-wrapper" style="margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1;">
+        <button id="btn-desfazer" class="btn-undo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+            Corrigir último clique
+        </button>
+        </div>
+
+  <div class="fundamentos-grid">
+     </div>
+</div>
+
+        <div class="fundamentos-grid">
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Ataque</h3>
+              <span>Ponto, neutro, bloqueado e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="ataque"
+                data-resultado="ponto"
+              >
+                + Ponto
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="ataque"
+                data-resultado="neutro"
+              >
+                + Neutro
+              </button>
+
+              <button
+                class="action-btn ace"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="ataque"
+                data-resultado="bloqueado"
+              >
+                + Bloqueado
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="ataque"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+          <div class="fundamento-title">
+              <h3>Saque</h3>
+              <span>Ace, bom, neutro e erro</span>
+          </div>
+
+          <div class="fundamento-buttons">
+              <button
+                  class="action-btn ace"
+                  data-atleta="1"
+                  data-set-selector="set_atleta1"
+                  data-fundamento="saque"
+                  data-resultado="ace">
+                  + Ace
+              </button>
+
+              <button
+                  class="action-btn success"
+                  data-atleta="1"
+                  data-set-selector="set_atleta1"
+                  data-fundamento="saque"
+                  data-resultado="bom">
+                  + Bom
+              </button>
+
+              <button
+                  class="action-btn neutral"
+                  data-atleta="1"
+                  data-set-selector="set_atleta1"
+                  data-fundamento="saque"
+                  data-resultado="neutro">
+                  + Neutro
+              </button>
+
+              <button
+                  class="action-btn danger"
+                  data-atleta="1"
+                  data-set-selector="set_atleta1"
+                  data-fundamento="saque"
+                  data-resultado="erro">
+                  + Erro
+              </button>
+          </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Passe / Recepção</h3>
+              <span>Excelente, bom, regular, ruim e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="passe"
+                data-resultado="excelente"
+              >
+                + Excelente
+              </button>
+
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="passe"
+                data-resultado="bom"
+              >
+                + Bom
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="passe"
+                data-resultado="regular"
+              >
+                + Regular
+              </button>
+
+              <button
+                class="action-btn ace"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="passe"
+                data-resultado="ruim"
+              >
+                + Ruim
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="passe"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Bloqueio</h3>
+              <span>Ponto, neutro e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="bloqueio"
+                data-resultado="ponto"
+              >
+                + Ponto
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="bloqueio"
+                data-resultado="neutro"
+              >
+                + Neutro
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="bloqueio"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Defesa</h3>
+              <span>Excelente, ação e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="defesa"
+                data-resultado="excelente"
+              >
+                + Excelente
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="defesa"
+                data-resultado="acao"
+              >
+                + Ação
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="1"
+                data-set-selector="set_atleta1"
+                data-fundamento="defesa"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+      <div class="fundamento-card">
+        <div class="fundamento-title">
+          <h3>Side-out</h3>
+          <span>Ponto, neutro, bloqueado e erro</span>
+        </div>
+
+        <div class="fundamento-buttons">
+          <button
+            class="action-btn success"
+            type="button"
+            data-atleta="1"
+            data-set-selector="set_atleta1"
+            data-fundamento="side-out"
+            data-resultado="ponto"
+          >
+            + Ponto
+          </button>
+
+          <button
+            class="action-btn neutral"
+            type="button"
+            data-atleta="1"
+            data-set-selector="set_atleta1"
+            data-fundamento="side-out"
+            data-resultado="neutro"
+          >
+            + Neutro
+          </button>
+
+          <button
+            class="action-btn ace"
+            type="button"
+            data-atleta="1"
+            data-set-selector="set_atleta1"
+            data-fundamento="side-out"
+            data-resultado="bloqueado"
+          >
+            + Bloqueado
+          </button>
+
+          <button
+            class="action-btn danger"
+            type="button"
+            data-atleta="1"
+            data-set-selector="set_atleta1"
+            data-fundamento="side-out"
+            data-resultado="erro"
+          >
+            + Erro
+          </button>
+        </div>
+      </div>
+
+      <div class="fundamento-card">
+        <div class="fundamento-title">
+          <h3>Contra-ataque</h3>
+          <span>Ponto, neutro, bloqueado e erro</span>
+        </div>
+
+      <div class="fundamento-buttons">
+        <button
+          class="action-btn success"
+          type="button"
+          data-atleta="1"
+          data-set-selector="set_atleta1"
+          data-fundamento="contra-ataque"
+          data-resultado="ponto"
+        >
+          + Ponto
+        </button>
+
+        <button
+          class="action-btn neutral"
+          type="button"
+          data-atleta="1"
+          data-set-selector="set_atleta1"
+          data-fundamento="contra-ataque"
+          data-resultado="neutro"
+        >
+          + Neutro
+        </button>
+
+        <button
+          class="action-btn ace"
+          type="button"
+          data-atleta="1"
+          data-set-selector="set_atleta1"
+          data-fundamento="contra-ataque"
+          data-resultado="bloqueado"
+        >
+          + Bloqueado
+        </button>
+
+        <button
+          class="action-btn danger"
+          type="button"
+          data-atleta="1"
+          data-set-selector="set_atleta1"
+          data-fundamento="contra-ataque"
+          data-resultado="erro"
+        >
+          + Erro
+        </button>
+      </div>
+    </div>
+        </div>
+      </section>
+
+      <!-- ATLETA 2 -->
+      <section class="panel athlete-panel">
+        <div class="athlete-panel-header">
+          <div>
+            <h2 id="nome-atleta2-painel">Atleta 2</h2>
+            <p>Coleta individual em tempo real</p>
+          </div>
+
+          <div class="athlete-controls">
+            <div class="mini-field">
+              <label for="set_atleta2">Set</label>
+              <select id="set_atleta2">
+                <option value="1">1º</option>
+                <option value="2">2º</option>
+                <option value="3">3º</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="fundamentos-grid">
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Ataque</h3>
+              <span>Ponto, neutro, bloqueado e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="ataque"
+                data-resultado="ponto"
+              >
+                + Ponto
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="ataque"
+                data-resultado="neutro"
+              >
+                + Neutro
+              </button>
+
+              <button
+                class="action-btn ace"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="ataque"
+                data-resultado="bloqueado"
+              >
+                + Bloqueado
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="ataque"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+                <h3>Saque</h3>
+                <span>Ace, bom, neutro e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+                <button
+                    class="action-btn ace"
+                    data-atleta="2"
+                    data-set-selector="set_atleta2"
+                    data-fundamento="saque"
+                    data-resultado="ace">
+                    + Ace
+                </button>
+
+                <button
+                    class="action-btn success"
+                    data-atleta="2"
+                    data-set-selector="set_atleta2"
+                    data-fundamento="saque"
+                    data-resultado="bom">
+                    + Bom
+                </button>
+
+                <button
+                    class="action-btn neutral"
+                    data-atleta="2"
+                    data-set-selector="set_atleta2"
+                    data-fundamento="saque"
+                    data-resultado="neutro">
+                    + Neutro
+                </button>
+
+                <button
+                    class="action-btn danger"
+                    data-atleta="2"
+                    data-set-selector="set_atleta2"
+                    data-fundamento="saque"
+                    data-resultado="erro">
+                    + Erro
+                </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Passe / Recepção</h3>
+              <span>Excelente, bom, regular, ruim e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="passe"
+                data-resultado="excelente"
+              >
+                + Excelente
+              </button>
+
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="passe"
+                data-resultado="bom"
+              >
+                + Bom
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="passe"
+                data-resultado="regular"
+              >
+                + Regular
+              </button>
+
+              <button
+                class="action-btn ace"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="passe"
+                data-resultado="ruim"
+              >
+                + Ruim
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="passe"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Bloqueio</h3>
+              <span>Ponto, neutro e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="bloqueio"
+                data-resultado="ponto"
+              >
+                + Ponto
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="bloqueio"
+                data-resultado="neutro"
+              >
+                + Neutro
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="bloqueio"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+          <div class="fundamento-card">
+            <div class="fundamento-title">
+              <h3>Defesa</h3>
+              <span>Excelente, ação e erro</span>
+            </div>
+
+            <div class="fundamento-buttons">
+              <button
+                class="action-btn success"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="defesa"
+                data-resultado="excelente"
+              >
+                + Excelente
+              </button>
+
+              <button
+                class="action-btn neutral"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="defesa"
+                data-resultado="acao"
+              >
+                + Ação
+              </button>
+
+              <button
+                class="action-btn danger"
+                type="button"
+                data-atleta="2"
+                data-set-selector="set_atleta2"
+                data-fundamento="defesa"
+                data-resultado="erro"
+              >
+                + Erro
+              </button>
+            </div>
+          </div>
+
+            <div class="fundamento-card">
+      <div class="fundamento-title">
+        <h3>Side-out</h3>
+        <span>Ponto, neutro, bloqueado e erro</span>
+      </div>
+
+      <div class="fundamento-buttons">
+        <button
+          class="action-btn success"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="side-out"
+          data-resultado="ponto"
+        >
+          + Ponto
+        </button>
+
+        <button
+          class="action-btn neutral"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="side-out"
+          data-resultado="neutro"
+        >
+          + Neutro
+        </button>
+
+        <button
+          class="action-btn ace"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="side-out"
+          data-resultado="bloqueado"
+        >
+          + Bloqueado
+        </button>
+
+        <button
+          class="action-btn danger"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="side-out"
+          data-resultado="erro"
+        >
+          + Erro
+        </button>
+      </div>
+    </div>
+
+    <div class="fundamento-card">
+      <div class="fundamento-title">
+        <h3>Contra-ataque</h3>
+        <span>Ponto, neutro, bloqueado e erro</span>
+      </div>
+
+      <div class="fundamento-buttons">
+        <button
+          class="action-btn success"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="contra-ataque"
+          data-resultado="ponto"
+        >
+          + Ponto
+        </button>
+
+        <button
+          class="action-btn neutral"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="contra-ataque"
+          data-resultado="neutro"
+        >
+          + Neutro
+        </button>
+
+        <button
+          class="action-btn ace"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="contra-ataque"
+          data-resultado="bloqueado"
+        >
+          + Bloqueado
+        </button>
+
+        <button
+          class="action-btn danger"
+          type="button"
+          data-atleta="2"
+          data-set-selector="set_atleta2"
+          data-fundamento="contra-ataque"
+          data-resultado="erro"
+        >
+          + Erro
+        </button>
+      </div>
+    </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- FINALIZAÇÃO DA PARTIDA -->
+    <section class="panel finalize-panel">
+      <div class="panel-header">
+        <h2>Finalizar partida</h2>
+        <p>Preencha o placar final dos sets somente ao encerrar o jogo.</p>
+      </div>
+
+      <div class="sets-grid">
+        <div class="set-box">
+          <h3>1º Set</h3>
+
+          <div class="set-inputs">
+            <div class="form-group">
+              <label for="final_set1_dupla">Dupla</label>
+              <input
+                type="number"
+                id="final_set1_dupla"
+                min="0"
+                placeholder="21"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="final_set1_adv">Adversárias</label>
+              <input
+                type="number"
+                id="final_set1_adv"
+                min="0"
+                placeholder="18"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="set-box">
+          <h3>2º Set</h3>
+
+          <div class="set-inputs">
+            <div class="form-group">
+              <label for="final_set2_dupla">Dupla</label>
+              <input
+                type="number"
+                id="final_set2_dupla"
+                min="0"
+                placeholder="17"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="final_set2_adv">Adversárias</label>
+              <input
+                type="number"
+                id="final_set2_adv"
+                min="0"
+                placeholder="21"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="set-box">
+          <h3>3º Set</h3>
+
+          <div class="set-inputs">
+            <div class="form-group">
+              <label for="final_set3_dupla">Dupla</label>
+              <input
+                type="number"
+                id="final_set3_dupla"
+                min="0"
+                placeholder="15"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="final_set3_adv">Adversárias</label>
+              <input
+                type="number"
+                id="final_set3_adv"
+                min="0"
+                placeholder="11"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="finalize-actions">
+        <button id="btn-finalizar-partida" class="primary-btn" type="button">
+          Finalizar e gerar relatório
+        </button>
+
+        <span id="finalizacao-status" class="status-text">
+          Aguardando finalização.
+        </span>
+      </div>
+    </section>
+
+    <!-- RELATÓRIOS -->
+    <section class="panel reports-panel">
+      <div class="panel-header">
+        <h2>Relatórios finais</h2>
+        <p>Baixe os relatórios oficiais gerados automaticamente pelo sistema.</p>
+      </div>
+
+      <div class="reports-download-grid">
+        <div class="report-download-card">
+          <div>
+            <h3 id="titulo-relatorio-atleta1">Relatório Atleta 1</h3>
+            <p>PDF individual do atleta 1</p>
+          </div>
+
+          <button id="btn-pdf-duda" class="primary-btn" type="button">
+            Baixar PDF
+          </button>
+        </div>
+
+        <div class="report-download-card">
+          <div>
+            <h3 id="titulo-relatorio-atleta2">Relatório Atleta 2</h3>
+            <p>PDF individual do atleta 2</p>
+          </div>
+
+          <button id="btn-pdf-ana" class="primary-btn" type="button">
+            Baixar PDF
+          </button>
+        </div>
+
+        <div class="report-download-card destaque">
+          <div>
+            <h3 id="titulo-relatorio-dupla">Relatório da Dupla</h3>
+            <p>PDF oficial consolidado da partida</p>
+          </div>
+
+          <button id="btn-pdf-dupla" class="primary-btn" type="button">
+            Baixar PDF
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- HISTÓRICO -->
+    <section class="panel" id="history">
+      <div class="panel-header">
+        <h2>Histórico de partidas</h2>
+        <p>Relatórios salvos por dia</p>
+      </div>
+      <div class="filtro-historico">
+        <input type="date" id="filtro-data" />
+        <button id="btn-filtrar" class="topbar-btn">Filtrar</button>
+      </div>
+
+      <div id="lista-partidas"></div>
+    </section>
+
+    <!-- LOG -->
+    <section class="panel log-panel">
+      <div class="panel-header">
+        <h2>Log visual da coleta</h2>
+        <p>Histórico das ações registradas em tempo real.</p>
+      </div>
+
+      <div class="log-list" id="action-log-list">
+        <div class="log-empty">Nenhuma ação registrada ainda.</div>
+      </div>
+    </section>
+  <section id="analysis" class="panel" hidden>
+<div class="dialog-heading"><div><span class="small-label">Dashboard da partida</span><h2 id="analysis-title">Análise da partida</h2></div><button id="analysis-back" class="topbar-btn" type="button">Voltar ao histórico</button></div>
+<div id="analysis-people" class="people"></div><div id="analysis-meta" class="analysis-info"></div>
+<div class="selection-tools"><div class="form-group"><label for="analysis-type">Analisar</label><select id="analysis-type"><option value="dupla">Dupla</option></select></div><div class="form-group"><label for="analysis-set">Período</label><select id="analysis-set"><option value="">Partida inteira</option></select></div><button class="topbar-btn" id="analysis-retry" type="button">Atualizar seleção</button></div>
+<p id="analysis-status" role="status" aria-live="polite"></p>
+<p class="hint">As distribuições usam o total de cada fundamento na seleção ativa. Registros de fundamentos não equivalem a pontos do placar e podem descrever o mesmo lance.</p>
+<div id="analysis-stats" class="dashboard-grid" style="margin-top:18px"></div>
+<div style="margin-top:24px"><h3>Relatórios completos da partida inteira</h3><p class="hint">Os filtros acima não alteram os três PDFs originais.</p><div id="analysis-pdfs" class="topbar-actions" style="margin-top:12px"></div></div>
+</section></main>
+<dialog id="roster-dialog" class="roster-dialog" aria-labelledby="roster-title">
+<div class="dialog-heading"><h2 id="roster-title">Atletas</h2><button type="button" class="topbar-btn" onclick="document.getElementById('roster-dialog').close()">Voltar à partida</button></div>
+<div class="topbar-actions"><button type="button" class="topbar-btn" onclick="showRosterTab('athletes')">Atletas</button><button type="button" class="topbar-btn" onclick="showRosterTab('pairs')">Duplas</button></div>
+<p id="roster-message" class="form-message" role="status" aria-live="polite"></p>
+<section id="athletes-area" class="roster-layout"><div><div class="form-group"><label for="athlete-search">Pesquisar por nome</label><input type="search" id="athlete-search" placeholder="Nome do atleta"></div><label class="check-label"><input type="checkbox" id="show-archived">Incluir arquivados</label><div id="athlete-list"></div></div>
+<form id="athlete-form" class="roster-form"><div class="dialog-heading"><h3 id="athlete-form-title">Adicionar atleta</h3><button id="new-athlete" type="button" class="topbar-btn">Novo</button></div>
+<div class="form-group"><label for="athlete-nome">Nome (obrigatório)</label><input id="athlete-nome" required maxlength="200"></div>
+<div class="form-group"><label for="athlete-clube">Clube / equipe (opcional)</label><input id="athlete-clube" maxlength="200"></div>
+<div id="photo-preview" class="photo-preview"><span class="avatar" role="img" aria-label="Sem foto">●</span></div>
+<div class="form-group"><label for="athlete-photo">Foto (opcional)</label><input id="athlete-photo" type="file" accept="image/png,image/jpeg,image/webp"><span class="hint">PNG, JPEG ou WebP, até 3 MB.</span></div>
+<button id="remove-photo" class="topbar-btn" type="button">Remover foto</button>
+<details><summary>Informações adicionais (opcionais)</summary>
+<div class="form-group"><label for="athlete-pais">País</label><input id="athlete-pais" maxlength="200"></div>
+<div class="form-group"><label for="athlete-altura">Altura</label><input id="athlete-altura" type="number" min="0" step="any"></div>
+<div class="form-group"><label for="athlete-idade">Idade</label><input id="athlete-idade" type="number" min="0" step="1"></div>
+<div class="form-group"><label for="athlete-dupla">Dupla (anotação do cadastro antigo)</label><input id="athlete-dupla" maxlength="200"></div></details>
+<button class="primary-btn" type="submit">Salvar atleta</button></form></section>
+<section id="pairs-area" class="roster-layout" hidden><div id="pair-list"></div><form id="pair-form" class="roster-form"><h3>Formar uma dupla</h3><p class="hint">A ordem da formação não determina as posições na partida. Uma formação arquivada será reativada ao reutilizar os mesmos atletas.</p><div class="form-group"><label for="pair-one">Primeiro atleta</label><select id="pair-one" required></select></div><div class="form-group"><label for="pair-two">Segundo atleta</label><select id="pair-two" required></select></div><button type="submit" class="primary-btn">Salvar / reutilizar dupla</button></form></section>
+</dialog>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="common.js"></script><script src="script.js"></script><script src="roster.js"></script><script src="dashboard.js"></script>
+</body>
+</html>

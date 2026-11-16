@@ -1,0 +1,8 @@
+MOURA ANALYTICS 1.1.1
+
+Envie somente entrega-cliente\MouraAnalytics-Setup-1.1.1.exe ao cliente.
+Instalador NSIS completo. Nao e necessario enviar ZIP ou outros arquivos.
+
+Gerar novas entregas: npm run dist:client
+Comandos, testes executados e pendencias: DISTRIBUICAO-WINDOWS.md.
+O iniciar.bat e somente para desenvolvimento.

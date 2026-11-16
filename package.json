@@ -1,21 +1,97 @@
 {
-  "name": "projeto-de-analise-esportiva---michell",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "moura-analytics",
+  "version": "1.1.1",
+  "description": "Moura Analytics",
+  "main": "main.js",
+  "author": "Moura Analytics",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node scripts/prepare-runtime.cjs && electron .",
+    "start:backend": "node Backend/server.js",
+    "test": "node --test tests/*.test.cjs",
+    "test:pdf": "node tests/compare-pdfs.cjs",
+    "test:ui": "node tests/ui.cjs",
+    "test:packaged": "node tests/packaged.cjs",
+    "pack:win": "electron-builder --win --x64 --dir",
+    "dist:win": "electron-builder --win nsis --x64",
+    "prepare:runtime": "node scripts/prepare-runtime.cjs",
+    "test:installed": "node tests/install-and-verify.cjs",
+    "dist:client": "electron-builder --win nsis --x64 && node scripts/deliver-windows.cjs",
+    "test:distribution": "node tests/distribution.cjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "devDependencies": {
+    "electron": "^43.1.0",
+    "electron-builder": "^26.15.3",
+    "playwright": "1.58.2"
+  },
   "dependencies": {
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
-    "express": "^5.2.1",
-    "jsonwebtoken": "^9.0.3",
-    "mysql2": "^3.22.0",
-    "puppeteer": "^24.40.0"
+    "bcryptjs": "3.0.3",
+    "better-sqlite3": "12.11.1",
+    "cors": "2.8.6",
+    "express": "4.22.1",
+    "jsonwebtoken": "9.0.3",
+    "pdfkit": "0.18.0",
+    "sharp": "0.34.5"
+  },
+  "build": {
+    "appId": "br.com.moura.analytics",
+    "productName": "Moura Analytics",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "Frontend/**/*",
+      "Backend/*.js",
+      "Backend/database/*.js",
+      "Backend/database/*.sql",
+      "Backend/middlewares/*.js",
+      "!Backend/node_modules/**",
+      "!Backend/.env",
+      "!**/*.db",
+      "!**/*.exe",
+      "!tests/**",
+      "!**/.env*",
+      "!**/*.db-wal",
+      "!**/*.db-shm",
+      "!**/*.sqlite",
+      "!**/*.sqlite3",
+      "!entrega-cliente/**",
+      "!test-results/**"
+    ],
+    "asar": true,
+    "asarUnpack": [
+      "Backend/**",
+      "Frontend/**",
+      "node_modules/**"
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": "nsis",
+      "artifactName": "MouraAnalytics-Setup-${version}.${ext}",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false
+    },
+    "beforePack": "./scripts/prepare-runtime.cjs",
+    "extraResources": [
+      {
+        "from": "runtime",
+        "to": "runtime",
+        "filter": [
+          "node.exe",
+          "NODE-LICENSE.txt",
+          "version.json"
+        ]
+      }
+    ]
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

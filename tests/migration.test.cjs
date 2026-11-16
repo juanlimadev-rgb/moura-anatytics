@@ -1,0 +1,32 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const os=require('node:os');
+const path=require('node:path');
+const {Database,seed}=require('./helpers.cjs');
+const {migrate,snapshot,validateSnapshot}=require('../Backend/database/migrate');
+const {importLegacy}=require('../Backend/database/import-legacy');
+test('migração transacional repetível, backup consistente, contagens e vínculos preservados',async()=>{
+  const folder=fs.mkdtempSync(path.join(os.tmpdir(),'Moura migração São Luís '));
+  const legacy=path.join(folder,'banco antigo.db'),target=path.join(folder,'novo destino','moura.db');
+  let old=new Database(legacy);old.exec(fs.readFileSync(path.join(__dirname,'reference','legacy-schema.sql'),'utf8'));old.pragma('journal_mode = WAL');seed(old);
+  old.prepare('INSERT INTO atletas(nome,pais,altura,idade,dupla) VALUES(?,?,?,?,?)').run('Sem dono','Brasil',1.9,29,'Legado');
+  const before=snapshot(old);
+  const result=await importLegacy(legacy,target);assert.equal(result.tables.eventos_partida,55);assert.equal(result.unownedAthletes,1);
+  let migrated=new Database(target);validateSnapshot(migrated,before);assert.equal(migrated.pragma('user_version',{simple:true}),2);
+  assert.equal(migrated.prepare('SELECT id_usuario FROM atletas').get().id_usuario,null);
+  assert.equal(migrated.prepare('SELECT count(*) n FROM atletas WHERE id_usuario=1').get().n,0);
+  const backups=fs.readdirSync(path.join(path.dirname(target),'backups'));assert.equal(backups.length,1);
+  const backup=new Database(path.join(path.dirname(target),'backups',backups[0]),{readonly:true});validateSnapshot(backup,before);backup.close();
+  migrate(migrated);migrate(migrated);validateSnapshot(migrated,before);assert.equal(fs.readdirSync(path.join(path.dirname(target),'backups')).length,1);
+  migrated.close();
+  await assert.rejects(importLegacy(legacy,target),/destino já existe/);
+  validateSnapshot(old,before);assert.equal(old.pragma('user_version',{simple:true}),0);old.close();
+  const invalid=path.join(folder,'inválido.db');fs.writeFileSync(invalid,'não é sqlite');
+  await assert.rejects(importLegacy(invalid,path.join(folder,'não criado.db')));assert.equal(fs.existsSync(path.join(folder,'não criado.db')),false);
+});
+test('falha durante a migração reverte alterações e mantém banco original',()=>{
+  const db=new Database(':memory:');db.exec(fs.readFileSync(path.join(__dirname,'reference','legacy-schema.sql'),'utf8'));seed(db);
+  db.exec('CREATE TABLE duplas(id INTEGER)');const before=snapshot(db);
+  assert.throws(()=>migrate(db));validateSnapshot(db,before);assert.equal(db.pragma('user_version',{simple:true}),0);assert.equal(db.pragma('table_info(atletas)').some(c=>c.name==='id_usuario'),false);db.close();
+});

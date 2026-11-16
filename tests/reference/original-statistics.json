@@ -1,0 +1,802 @@
+{
+  "1-atleta1": {
+    "partida": {
+      "id": 1,
+      "data_partida": "2026-01-20",
+      "adversario": "Adversário fictício",
+      "campeonato": "Copa Referência",
+      "local": "São Luís",
+      "resultado": "1 x 2",
+      "dupla": "Ana / Duda",
+      "atleta1": "Ana",
+      "atleta2": "Duda",
+      "id_usuario": 1
+    },
+    "sets": [
+      {
+        "id": 1,
+        "id_partida": 1,
+        "set_numero": 1,
+        "pontos_dupla": 21,
+        "pontos_adversario": 18
+      },
+      {
+        "id": 2,
+        "id_partida": 1,
+        "set_numero": 2,
+        "pontos_dupla": 17,
+        "pontos_adversario": 21
+      },
+      {
+        "id": 3,
+        "id_partida": 1,
+        "set_numero": 3,
+        "pontos_dupla": 13,
+        "pontos_adversario": 15
+      }
+    ],
+    "estatisticas": {
+      "ataque": {
+        "total": 6,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 4,
+        "aproveitamento": 16.67,
+        "eficiencia": -50
+      },
+      "saque": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 3,
+        "erros": 1,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 5,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 3,
+        "erros": 1,
+        "aproveitamento": 60,
+        "eficiencia": 40
+      },
+      "bloqueio": {
+        "total": 3,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 1,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 3,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 1,
+        "erros": 1,
+        "aproveitamento": 33.33,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 2,
+        "aproveitamento": 25,
+        "eficiencia": -25
+      },
+      "contra-ataque": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 2,
+        "aproveitamento": 25,
+        "eficiencia": -25
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 1,
+        "neutro": 1,
+        "bloqueado": 1,
+        "erro": 3
+      },
+      "saque": {
+        "ace": 1,
+        "bom": 1,
+        "neutro": 1,
+        "erro": 1
+      },
+      "passe": {
+        "excelente": 1,
+        "bom": 1,
+        "regular": 1,
+        "ruim": 1,
+        "erro": 1
+      },
+      "bloqueio": {
+        "ponto": 1,
+        "neutro": 1,
+        "erro": 1
+      },
+      "defesa": {
+        "excelente": 1,
+        "acao": 1,
+        "erro": 1
+      },
+      "side-out": {
+        "ponto": 1,
+        "neutro": 1,
+        "erro": 1,
+        "bloqueado": 1
+      },
+      "contra-ataque": {
+        "ponto": 1,
+        "neutro": 1,
+        "bloqueado": 1,
+        "erro": 1
+      }
+    }
+  },
+  "1-atleta2": {
+    "partida": {
+      "id": 1,
+      "data_partida": "2026-01-20",
+      "adversario": "Adversário fictício",
+      "campeonato": "Copa Referência",
+      "local": "São Luís",
+      "resultado": "1 x 2",
+      "dupla": "Ana / Duda",
+      "atleta1": "Ana",
+      "atleta2": "Duda",
+      "id_usuario": 1
+    },
+    "sets": [
+      {
+        "id": 1,
+        "id_partida": 1,
+        "set_numero": 1,
+        "pontos_dupla": 21,
+        "pontos_adversario": 18
+      },
+      {
+        "id": 2,
+        "id_partida": 1,
+        "set_numero": 2,
+        "pontos_dupla": 17,
+        "pontos_adversario": 21
+      },
+      {
+        "id": 3,
+        "id_partida": 1,
+        "set_numero": 3,
+        "pontos_dupla": 13,
+        "pontos_adversario": 15
+      }
+    ],
+    "estatisticas": {
+      "ataque": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 2,
+        "aproveitamento": 25,
+        "eficiencia": -25
+      },
+      "saque": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 3,
+        "erros": 1,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 5,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 3,
+        "erros": 1,
+        "aproveitamento": 60,
+        "eficiencia": 40
+      },
+      "bloqueio": {
+        "total": 3,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 1,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 3,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 1,
+        "erros": 1,
+        "aproveitamento": 33.33,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 3,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 1,
+        "aproveitamento": 33.33,
+        "eficiencia": 0
+      },
+      "contra-ataque": {
+        "total": 4,
+        "neutros": 1,
+        "pontos": 1,
+        "acertos": 1,
+        "erros": 2,
+        "aproveitamento": 25,
+        "eficiencia": -25
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 1,
+        "neutro": 1,
+        "bloqueado": 1,
+        "erro": 1
+      },
+      "saque": {
+        "ace": 1,
+        "bom": 1,
+        "neutro": 1,
+        "erro": 1
+      },
+      "passe": {
+        "excelente": 1,
+        "bom": 1,
+        "regular": 1,
+        "ruim": 1,
+        "erro": 1
+      },
+      "bloqueio": {
+        "ponto": 1,
+        "neutro": 1,
+        "erro": 1
+      },
+      "defesa": {
+        "excelente": 1,
+        "acao": 1,
+        "erro": 1
+      },
+      "side-out": {
+        "ponto": 1,
+        "neutro": 1,
+        "erro": 1
+      },
+      "contra-ataque": {
+        "ponto": 1,
+        "neutro": 1,
+        "bloqueado": 1,
+        "erro": 1
+      }
+    }
+  },
+  "1-dupla": {
+    "partida": {
+      "id": 1,
+      "data_partida": "2026-01-20",
+      "adversario": "Adversário fictício",
+      "campeonato": "Copa Referência",
+      "local": "São Luís",
+      "resultado": "1 x 2",
+      "dupla": "Ana / Duda",
+      "atleta1": "Ana",
+      "atleta2": "Duda",
+      "id_usuario": 1
+    },
+    "sets": [
+      {
+        "id": 1,
+        "id_partida": 1,
+        "set_numero": 1,
+        "pontos_dupla": 21,
+        "pontos_adversario": 18
+      },
+      {
+        "id": 2,
+        "id_partida": 1,
+        "set_numero": 2,
+        "pontos_dupla": 17,
+        "pontos_adversario": 21
+      },
+      {
+        "id": 3,
+        "id_partida": 1,
+        "set_numero": 3,
+        "pontos_dupla": 13,
+        "pontos_adversario": 15
+      }
+    ],
+    "estatisticas": {
+      "ataque": {
+        "total": 10,
+        "neutros": 2,
+        "pontos": 2,
+        "acertos": 2,
+        "erros": 6,
+        "aproveitamento": 20,
+        "eficiencia": -40
+      },
+      "saque": {
+        "total": 8,
+        "neutros": 2,
+        "pontos": 2,
+        "acertos": 6,
+        "erros": 2,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 10,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 6,
+        "erros": 2,
+        "aproveitamento": 60,
+        "eficiencia": 40
+      },
+      "bloqueio": {
+        "total": 6,
+        "neutros": 2,
+        "pontos": 2,
+        "acertos": 2,
+        "erros": 2,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 6,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 2,
+        "erros": 2,
+        "aproveitamento": 33.33,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 7,
+        "neutros": 2,
+        "pontos": 2,
+        "acertos": 2,
+        "erros": 3,
+        "aproveitamento": 28.57,
+        "eficiencia": -14.29
+      },
+      "contra-ataque": {
+        "total": 8,
+        "neutros": 2,
+        "pontos": 2,
+        "acertos": 2,
+        "erros": 4,
+        "aproveitamento": 25,
+        "eficiencia": -25
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 2,
+        "neutro": 2,
+        "bloqueado": 2,
+        "erro": 4
+      },
+      "saque": {
+        "ace": 2,
+        "bom": 2,
+        "neutro": 2,
+        "erro": 2
+      },
+      "passe": {
+        "excelente": 2,
+        "bom": 2,
+        "regular": 2,
+        "ruim": 2,
+        "erro": 2
+      },
+      "bloqueio": {
+        "ponto": 2,
+        "neutro": 2,
+        "erro": 2
+      },
+      "defesa": {
+        "excelente": 2,
+        "acao": 2,
+        "erro": 2
+      },
+      "side-out": {
+        "ponto": 2,
+        "neutro": 2,
+        "erro": 2,
+        "bloqueado": 1
+      },
+      "contra-ataque": {
+        "ponto": 2,
+        "neutro": 2,
+        "bloqueado": 2,
+        "erro": 2
+      }
+    }
+  },
+  "2-atleta1": {
+    "partida": {
+      "id": 2,
+      "data_partida": "2026-01-21",
+      "adversario": null,
+      "campeonato": null,
+      "local": null,
+      "resultado": null,
+      "dupla": "Sem / Eventos",
+      "atleta1": "Sem",
+      "atleta2": "Eventos",
+      "id_usuario": 1
+    },
+    "sets": [],
+    "estatisticas": {
+      "ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "saque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "bloqueio": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "contra-ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      },
+      "saque": {
+        "ace": 0,
+        "bom": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "passe": {
+        "excelente": 0,
+        "bom": 0,
+        "regular": 0,
+        "ruim": 0,
+        "erro": 0
+      },
+      "bloqueio": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "defesa": {
+        "excelente": 0,
+        "acao": 0,
+        "erro": 0
+      },
+      "side-out": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "contra-ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      }
+    }
+  },
+  "2-atleta2": {
+    "partida": {
+      "id": 2,
+      "data_partida": "2026-01-21",
+      "adversario": null,
+      "campeonato": null,
+      "local": null,
+      "resultado": null,
+      "dupla": "Sem / Eventos",
+      "atleta1": "Sem",
+      "atleta2": "Eventos",
+      "id_usuario": 1
+    },
+    "sets": [],
+    "estatisticas": {
+      "ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "saque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "bloqueio": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "contra-ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      },
+      "saque": {
+        "ace": 0,
+        "bom": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "passe": {
+        "excelente": 0,
+        "bom": 0,
+        "regular": 0,
+        "ruim": 0,
+        "erro": 0
+      },
+      "bloqueio": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "defesa": {
+        "excelente": 0,
+        "acao": 0,
+        "erro": 0
+      },
+      "side-out": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "contra-ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      }
+    }
+  },
+  "2-dupla": {
+    "partida": {
+      "id": 2,
+      "data_partida": "2026-01-21",
+      "adversario": null,
+      "campeonato": null,
+      "local": null,
+      "resultado": null,
+      "dupla": "Sem / Eventos",
+      "atleta1": "Sem",
+      "atleta2": "Eventos",
+      "id_usuario": 1
+    },
+    "sets": [],
+    "estatisticas": {
+      "ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "saque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "passe": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "bloqueio": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": null,
+        "eficiencia": null
+      },
+      "defesa": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "side-out": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      },
+      "contra-ataque": {
+        "total": 0,
+        "neutros": 0,
+        "pontos": 0,
+        "acertos": 0,
+        "erros": 0,
+        "aproveitamento": 0,
+        "eficiencia": 0
+      }
+    },
+    "detalhamento": {
+      "ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      },
+      "saque": {
+        "ace": 0,
+        "bom": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "passe": {
+        "excelente": 0,
+        "bom": 0,
+        "regular": 0,
+        "ruim": 0,
+        "erro": 0
+      },
+      "bloqueio": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "defesa": {
+        "excelente": 0,
+        "acao": 0,
+        "erro": 0
+      },
+      "side-out": {
+        "ponto": 0,
+        "neutro": 0,
+        "erro": 0
+      },
+      "contra-ataque": {
+        "ponto": 0,
+        "neutro": 0,
+        "bloqueado": 0,
+        "erro": 0
+      }
+    }
+  }
+}

@@ -1,25 +1,6 @@
-require('dotenv').config();
-const mysql = require('mysql2');
+const Database = require("better-sqlite3");
+const {dbPath} = require('../paths');
+const db = new Database(dbPath);
+db.pragma('busy_timeout = 5000');
 
-const pool = mysql.createPool({
-  uri: process.env.MYSQL_URL,
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
-
-// teste de conexão
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Erro ao conectar no MySQL:', err.message);
-    return;
-  }
-
-  console.log('Conectado ao MySQL com sucesso!');
-  connection.release();
-});
-
-module.exports = pool;
+module.exports = db;
